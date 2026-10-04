@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Books </title>
+    </head>
+    <body>
+         {% for book in books %}
+         {{forloop.counter}}
+         <a href= "{% url 'show-book' book.id %}">
+         {{book.title}} {{book.author}} {{book.publication_date}} </a> <br>
+         <button onclick="window.location.href='{% url 'edit-book' book.id %}'">
+            edit book
+         </button>
+         <br><br>
+         <button onclick= "window.location.href='{% url 'delete-book' book.id %}'"> 
+            delete book 
+         </button>
+         <br><br>
+         {% endfor %}
+         <button onclick="window.location.href='{% url 'add-book' %}'">
+            add book
+         </button>
+         <br><br>         
+         <button onclick= "window.location.href='{% url 'delete-books' %}'">
+            delete ALL books
+         </button>
+         <br><br>
+         <button onclick= "window.location.href='{% url 'send-review' %}'">
+            review a book
+         </button>
+        {% include "return_home.html" %}
+    </body>
+</html>

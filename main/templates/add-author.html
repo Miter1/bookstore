@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Add author</title>
+    </head>
+    <body>
+        <form action="{%url 'add-author' %}" method="post">
+            {% comment %} {% csrf_token %}: allows to generate CSRF Token: 
+            A unique token included in forms to prevent Cross-Site 
+            Request Forgery (CSRF) attacks by verifying that the form 
+            submission is coming from the trusted source (the user 
+            who loaded the form). {% endcomment %}
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Submit</button>
+            {% comment %}<button type="submit" name="test">test</button>{% endcomment %}
+        </form>
+    </body>
+</html>

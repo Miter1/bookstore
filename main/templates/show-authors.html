@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Authors</title>
+    </head>
+    <body>
+        {% comment %} Iterating over an iterable 'authors'{% endcomment %}
+        {% for author in authors %}
+        {% comment %} forloop.counter: counter of loops {% endcomment %}
+        {{ forloop.counter}}
+        {% comment %} Showing 'author' attributes values {% endcomment %}
+        <a href="{% url 'show-author' author.id %}"> {{ author.first_name }}
+        {{author.last_name}} </a><br><br>
+        <button onclick="window.location.href='{% url 'edit-author' author.id %}'">
+            Edit
+        </button>
+        <br><br>
+        <button onclick="window.location.href='{% url 'delete-author' author.id %}'">
+            delete
+        </button>
+        <br><br>
+        {% endfor %}
+        <br>
+        <button onclick="window.location.href='{%url 'add-author'%}'">
+            Add
+        </button>
+        <br><br>
+        <button onclick="window.location.href='{% url 'delete-authors' %}'">
+            Delete ALL authors
+        </button>
+        {% include "return_home.html" %}
+    </body>
+</html>

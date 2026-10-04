@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Edit author</title>
+    </head>
+    <body>
+        <form action="{% url 'edit-author' author_id %}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>
