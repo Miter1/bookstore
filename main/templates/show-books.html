@@ -5,6 +5,7 @@
         <title> Books </title>
     </head>
     <body>
+         {% include 'header.html' %}
          {% for book in books %}
          {{forloop.counter}}
          <a href= "{% url 'show-book' book.id %}">
@@ -26,7 +27,7 @@
             delete ALL books
          </button>
          <br><br>
-         <button onclick= "window.location.href='{% url 'send-review' %}'">
+         <button onclick= "window.location.href='{% url 'add-review' %}'">
             review a book
          </button>
         {% include "return_home.html" %}

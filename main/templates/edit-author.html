@@ -5,6 +5,7 @@
         <title> Edit author</title>
     </head>
     <body>
+        {% include 'header.html' %}
         <form action="{% url 'edit-author' author_id %}" method="post">
             {% csrf_token %}
             {{form.as_p}}

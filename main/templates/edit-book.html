@@ -5,6 +5,7 @@
         <title> Edit book </title>
     </head>
     <body>
+        {% include 'header.html' %}
         <form action="{% url 'edit-book' book_id %}" method = "post">
             {% csrf_token %}
             {{form.as_p}}

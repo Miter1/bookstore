@@ -5,6 +5,7 @@
         <title> Add author</title>
     </head>
     <body>
+        {% include 'header.html' %}
         <form action="{%url 'add-author' %}" method="post">
             {% comment %} {% csrf_token %}: allows to generate CSRF Token: 
             A unique token included in forms to prevent Cross-Site 

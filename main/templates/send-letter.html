@@ -4,6 +4,7 @@
         <meta charset="utf-8">
     </head>
     <body>
+        {% include 'header.html' %}
         <form action = "{% url 'send-letter' %} " method = "post">
             {% csrf_token %}
             {{form.as_p}}

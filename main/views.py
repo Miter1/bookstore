@@ -3,6 +3,11 @@ from django.http import HttpResponse
 from .models import *
 from datetime import date
 from .forms import *
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+
+
 # Create your views here.
 # 'request' is an object that contains request data,
 # views function should return response object
@@ -20,6 +25,7 @@ from .forms import *
 #     # Save an Author model to the database:
 #     author.save()
 #     return render(request, 'index.html')
+
 def index(request):
     return render(request, 'index.html')
 """ 
@@ -28,6 +34,8 @@ and return a response object.
 Request object holds data of your request.
 Response object holds data of server response to your request.
 """
+
+@login_required
 def add_author(request):
     if request.method == 'POST':
         # if request.method == 'POST' and 'test' in request.POST:
@@ -67,7 +75,7 @@ def show_books(request):
     print(books)
     return render(request, 'show-books.html', {'books' : books})
 
-
+@login_required
 def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
@@ -78,24 +86,26 @@ def add_book(request):
         form = BookForm()
     return render(request, 'add-book.html', {'form': form})
 
+@login_required
 def delete_author(request, author_id):
     Author.objects.get(id=author_id).delete()
     return redirect('show-authors')
 
+@login_required
 def delete_authors(request):
     Author.objects.all().delete()
     return redirect('show-authors')
 
+@login_required
 def delete_book(request, book_id):
     Book.objects.get(id=book_id).delete()
     return redirect('show-books')
 
+@login_required
 def delete_books(request):
     Book.objects.all().delete()
     return redirect('show-books')
-
-
-        
+   
 def show_author(request, author_id):
     author = Author.objects.get(id=author_id)
     return render(request, 'show-author.html',{'author': author})
@@ -104,6 +114,7 @@ def show_book(request, book_id):
     book = Book.objects.get(id = book_id)
     return render(request, 'show-book.html',{'book':book})
 
+@login_required
 def edit_author(request, author_id):
     author = Author.objects.get(id = author_id)
     if request.method == 'POST' :
@@ -115,6 +126,7 @@ def edit_author(request, author_id):
         form = AuthorForm(instance=author)
     return render(request, 'edit-author.html', {'form': form, 'author_id' : author_id})
 
+@login_required
 def edit_book(request, book_id):
     book = Book.objects.get(id = book_id)
     if request.method == 'POST':
@@ -126,6 +138,7 @@ def edit_book(request, book_id):
         form = BookForm(instance=book)
     return render(request,'edit-book.html', {'form' : form, 'book_id' :book_id})
 
+@login_required
 def send_letter(request):
     if request.method == 'POST':
         form = LetterForm(request.POST)
@@ -136,7 +149,8 @@ def send_letter(request):
         form = LetterForm()
     return render(request, 'send-letter.html', {'form' : form})
 
-def send_review(request):
+@login_required
+def add_review(request):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -144,4 +158,37 @@ def send_review(request):
             return redirect('show-books')
     else:
         form = ReviewForm()
-    return render(request, 'send-review.html', {'form' : form})
+    return render(request, 'add-review.html', {'form' : form})
+
+def register(request):
+    if request.method =='POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_(request):
+    print(request.method)
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                error_message = 'Wrong login credentials. Try again'
+                return render(request, 'login.html', {'error_message' : error_message})
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form' : form})
+
+def logout_(request):
+    logout(request)
+    return redirect('index')

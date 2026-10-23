@@ -33,5 +33,8 @@ urlpatterns = [
     path('delete-books/', views.delete_books, name='delete-books'),
     path('show-book/<int:book_id>/', views.show_book, name = 'show-book'), 
     path('send-letter', views.send_letter, name='send-letter'),  
-    path('send-review', views.send_review, name='send-review'),                  
+    path('add-review', views.add_review, name='add-review'),
+    path('register', views.register, name='register'),
+    path('login', views.login_, name='login'),
+    path('logout', views.logout_, name='logout'),             
 ]

@@ -1,0 +1,11 @@
+{% comment %} Check if currecnt user is authenticated {% endcomment %}
+{% if user.is_authenticated %}
+{% comment %} if user is authenticated, show user's name {% endcomment %}
+{{ user.username }}
+{% comment %} The link to user's logaout URL in urls.py {% endcomment %}
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'register' %}">Register</a>
+<a href="{% url 'login' %}"> Login</a>
+{% endif %}
+<br><br>

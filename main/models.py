@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+
+
 """
 Data migration is the process of selecting, preparing, extracting,
 and transforming data and permanently transferring it from one
